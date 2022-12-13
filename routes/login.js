@@ -3,7 +3,7 @@ const User = require('../models/User')
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const SECRET = "10x"
+
 // Your routing code goes here
 
 // parse application/x-www-form-urlencoded
@@ -14,6 +14,7 @@ router.use(bodyParser.json())
 
 router.post('/', async (req, res) => {
     let { email, password } = req.body;
+
     try {
         if (email && password) {
             let user = await User.findOne({ email: email })
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
                     const token = jwt.sign({
                         exp: Math.floor(Date.now() / 1000) + (60 * 60),
                         data: user._id
-                    }, SECRET);
+                    }, process.env.SECRET);
                     return res.json({
                         status: "Success",
                         message: "Login Successful",
