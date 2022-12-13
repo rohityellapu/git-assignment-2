@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-
-const postSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+const postSchema = new Schema({
     title: String,
     body: String,
-    user_id: Number,
+    user_id: { type: Schema.Types.ObjectId, ref: "User" },
     image: String
 })
 
