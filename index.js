@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
-app.use('/post', postRouts);
+app.use('/posts', postRouts);
 
 app.use('/*', (req, res) => {
     res.status(404).send('Page Not Found');

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const Post = require('../models/Post')
 const User = require('../models/User');
 
-function isAuthorised(req, res, next) {
+function isAuthenticated(req, res, next) {
     if (req.headers.authorization) {
         const token = req.headers.authorization;
         jwt.verify(token, process.env.SECRET, (err, decoded) => {
@@ -47,4 +47,4 @@ async function isAuthor(req, res, next) {
     }
 }
 
-module.exports = { isAuthorised, isAuthor };
+module.exports = { isAuthenticated, isAuthor };
