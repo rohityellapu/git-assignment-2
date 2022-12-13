@@ -4,9 +4,11 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const loginRoutes = require('./routes/login')
 const registerRoutes = require('./routes/register')
+const postRouts = require('./routes/post')
 mongoose.connect('mongodb://localhost/assignment', () => {
     console.log('Database connected')
 })
+require('dotenv').config();
 
 mongoose.set('strictQuery', true);
 
@@ -22,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
-
+app.use('/post', postRouts);
 
 app.use('/*', (req, res) => {
     res.status(404).send('Page Not Found');
