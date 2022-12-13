@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-
+const Post = require('../models/Post')
+const User = require('../models/User');
 
 function isAuthorised(req, res, next) {
     if (req.headers.authorization) {
@@ -23,4 +24,27 @@ function isAuthorised(req, res, next) {
     }
 }
 
-module.exports = isAuthorised;
+async function isAuthor(req, res, next) {
+    const { id } = req.params;
+    try {
+
+        const post = await Post.findOne({ _id: id });
+
+        if (!post.user_id.equals(req.user)) {
+            return res.status(401).json({
+                status: "Failed",
+                message: "You are not authorised to update another user's post."
+            })
+        }
+        next();
+
+    }
+    catch (err) {
+        res.status(400).json({
+            status: "Failed",
+            message: err.message
+        })
+    }
+}
+
+module.exports = { isAuthorised, isAuthor };
